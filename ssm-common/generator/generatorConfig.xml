@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<!-- 使用 mvn mybatis-generator:generate -->
+<generatorConfiguration>
+    <!-- 配置文件 -->
+    <!-- <properties resource="application.properties" /> -->
+    <context id="runmanTables" targetRuntime="MyBatis3" defaultModelType="flat">
+
+        <!--&lt;!&ndash; 生成的Java文件的编码 &ndash;&gt;-->
+        <!--<property name="javaFileEncoding" value="UTF-8"/>-->
+        <!--&lt;!&ndash; 格式化java代码 &ndash;&gt;-->
+        <!--<property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>-->
+        <!--&lt;!&ndash; 格式化XML代码 &ndash;&gt;-->
+        <!--<property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>-->
+
+
+        <!-- java模型创建器，是必须要的元素
+        负责：1，key类（见context的defaultModelType）；2，java类；3，查询类
+        targetPackage：生成的类要放的包，真实的包受enableSubPackages属性控制；
+        targetProject：目标项目，指定一个存在的目录下，生成的内容会放到指定目录中，如果目录不存在，MBG不会自动建目录
+         -->
+        <!--<javaModelGenerator targetPackage="com._520it.mybatis.domain" targetProject="src/main/java">-->
+        <!--&lt;!&ndash;  for MyBatis3/MyBatis3Simple-->
+        <!--自动为每一个生成的类创建一个构造方法，构造方法包含了所有的field；而不是使用setter；-->
+        <!--&ndash;&gt;-->
+        <!--<property name="constructorBased" value="false"/>-->
+
+        <!--&lt;!&ndash; 在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个package下，默认为false &ndash;&gt;-->
+        <!--<property name="enableSubPackages" value="true"/>-->
+
+        <!--&lt;!&ndash; for MyBatis3 / MyBatis3Simple-->
+        <!--是否创建一个不可变的类，如果为true，-->
+        <!--那么MBG会创建一个没有setter方法的类，取而代之的是类似constructorBased的类-->
+        <!--&ndash;&gt;-->
+        <!--<property name="immutable" value="false"/>-->
+
+        <!--&lt;!&ndash; 设置一个根对象，-->
+        <!--如果设置了这个根对象，那么生成的keyClass或者recordClass会继承这个类；在Table的rootClass属性中可以覆盖该选项-->
+        <!--注意：如果在key class或者record class中有root class相同的属性，MBG就不会重新生成这些属性了，包括：-->
+        <!--1，属性名相同，类型相同，有相同的getter/setter方法；-->
+        <!--&ndash;&gt;-->
+        <!--<property name="rootClass" value="com._520it.mybatis.domain.BaseDomain"/>-->
+
+        <!--&lt;!&ndash; 设置是否在getter方法中，对String类型字段调用trim()方法 &ndash;&gt;-->
+        <!--<property name="trimStrings" value="true"/>-->
+        <!--</javaModelGenerator>-->
+
+
+        <!-- 自动识别数据库关键字，默认false -->
+        <property name="autoDelimitKeywords" value="true"/>
+        <!--可以使用``包括字段名，避免字段名与sql保留字冲突报错 -->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <!-- plugin -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+
+        <!-- 取消生成的代码注释 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!-- 连接配置 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://192.168.1.112:3306/im-ucenter?characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull"
+                        userId="root"
+                        password="111111">
+        </jdbcConnection>
+
+        <!-- javaModelGenerator是模型的生成信息，这里将指定这些Java model类的生成路径 -->
+        <javaModelGenerator targetPackage="cn.com.ssm.common.model"
+                            targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- 生成Mapper 配置文件 -->
+        <sqlMapGenerator targetPackage="cn.com.ssm.common.mapper"
+                         targetProject="src/main/resources">
+        </sqlMapGenerator>
+
+        <!-- javaClientGenerator是应用接口的生成信息 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="cn.com.ssm.common.mapper" targetProject="src/main/java">
+            <!-- 在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个package下，默认为false -->
+            <property name="enableSubPackages" value="true"/>
+            <!-- 可以为所有生成的接口添加一个父接口 -->
+            <property name="rootInterface" value="com.ivymei.framework.system.base.BaseMapper"/>
+        </javaClientGenerator>
+        <!-- oracle 使用 schema 对应 用户名称空间 mysql 使用 catalog 对应 数据库 -->
+
+        <table tableName="im_address">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="im_token">
+            <generatedKey column="t_id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <!--<table tableName="im_config">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true" />-->
+            <!--指定某个列的数据类型-->
+            <!--<columnOverride column="content" javaType="String" jdbcType="VARCHAR" />-->
+        <!--</table>-->
+
+
+    </context>
+</generatorConfiguration>

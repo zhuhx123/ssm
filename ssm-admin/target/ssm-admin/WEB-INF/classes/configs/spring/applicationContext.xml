@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/task
+       http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!-- 自动扫描 -->
+    <context:component-scan base-package="cn.com.ssm">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!-- 引入配置文件 -->
+    <bean id="propertyConfigurer"
+          class="com.ivymei.framework.util.PropertiesUtil">
+        <property name="locations">
+            <list>
+                <value>classpath:configs/configs.properties</value>
+                <value>classpath:configs/mongo.properties</value>
+                <value>classpath:configs/redis.properties</value>
+                <value>classpath:configs/redis1.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- spring 其他配置 方便测试 -->
+    <import resource="classpath:configs/spring/applicationContext-datasource.xml"/>
+    <import resource="classpath:configs/spring/applicationContext-mongodb.xml" />
+    <import resource="classpath:configs/spring/applicationContext-redis.xml"/>
+    <import resource="classpath:configs/spring/applicationContext-dubbo-provide.xml"/>
+
+</beans>

@@ -1,0 +1,127 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <artifactId>ssm</artifactId>
+        <groupId>com.cn.ssm</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>ssm-admin</artifactId>
+    <packaging>jar</packaging>
+    <name>ssm-admin</name>
+    <url>http://maven.apache.org</url>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.9</version>
+        </dependency>
+        <dependency>
+            <groupId>com.cn.ssm</groupId>
+            <artifactId>ssm-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!--&lt;!&ndash; Redis客户端 &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>redis.clients</groupId>-->
+            <!--<artifactId>jedis</artifactId>-->
+            <!--<version>2.5.1</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.data</groupId>-->
+            <!--<artifactId>spring-data-redis</artifactId>-->
+            <!--<version>1.3.6.RELEASE</version>-->
+        <!--</dependency>-->
+
+
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-mongodb</artifactId>
+            <version>1.8.2.RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>jcl-over-slf4j</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>ssm-admin</finalName>
+        <!-- 指定使用的 filter -->
+        <filters>
+            <filter>src/main/filters/filter-${env}.properties</filter>
+        </filters>
+        <!--把文件打包成jar包-->
+        <resources>
+            <resource>
+                <directory>src/main/resource</directory>
+                <excludes><!--指定不包含在内的patterns,如果inclues与excludes有冲突，那么excludes胜利，那些符合冲突的样式的文件是不会包含进来的-->
+                    <exclude>configs/configs.properties</exclude>
+                    <exclude>configs/log4j/log4j.properties</exclude>
+                    <exclude>configs/mongo.properties</exclude>
+                    <exclude>configs/redis.properties</exclude>
+                    <exclude>configs/redis1.properties</exclude>
+                    <!--<exclude>configs/ice.conf</exclude>-->
+                    <!--<exclude>configs/ice-client.properties</exclude>-->
+                </excludes>
+                <filtering>false</filtering>  <!-- 指定是否将filter文件(即上面说的filters里定义的*.property文件)的变量值在这个resource文件有效 -->
+            </resource>
+            <resource>
+                <directory>src/main/resource</directory>
+                <includes>
+                    <include>configs/configs.properties</include>
+                    <include>configs/log4j/log4j.properties</include>
+                    <include>configs/mongo.properties</include>
+                    <include>configs/redis.properties</include>
+                    <include>configs/redis1.properties</include>
+                    <!--<include>configs/ice.conf</include>-->
+                    <!--<include>configs/ice-client.properties</include>-->
+                </includes>
+                <filtering>true</filtering><!-- 是否使用过滤器 -->
+            </resource>
+        </resources>
+        <!--<plugins>-->
+            <!--&lt;!&ndash; 编码和编译和JDK版本 &ndash;&gt;-->
+            <!--&lt;!&ndash;解决@Override not allowed when implementing interface method报错问题&ndash;&gt;-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-compiler-plugin</artifactId>-->
+                <!--<version>2.3.2</version>-->
+                <!--<configuration>-->
+                    <!--<source>1.8</source>-->
+                    <!--<target>1.8</target>-->
+                    <!--<encoding>utf8</encoding>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+        <!--</plugins>-->
+    </build>
+    <!--每个profile对应不同的激活条件和配置信息，从而达到不同环境使用不同配置信息的效果-->
+    <profiles>
+        <profile>
+            <id>local</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <env>test</env>
+            </properties>
+        </profile>
+        <profile>
+            <id>qa</id>
+            <properties>
+                <env>qa</env>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <env>prod</env>
+            </properties>
+        </profile>
+    </profiles>
+</project>
