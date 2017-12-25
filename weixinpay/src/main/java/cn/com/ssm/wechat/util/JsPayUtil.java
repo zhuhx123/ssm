@@ -4,6 +4,7 @@ import cn.com.ssm.wechat.constant.Constant;
 import com.alibaba.fastjson.JSONObject;
 import com.ivymei.framework.util.HttpUtil;
 import com.ivymei.framework.util.StringUtil;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +16,7 @@ public class JsPayUtil {
     public static String getOpenid(String code){
         String openid="";
         if(StringUtil.isNullOrBlank(code)){
-            String baseUrl="http://index.html";
+            String baseUrl="http://localhost:8080/index.jsp";
             openid=createOauthUrlForCode(baseUrl);
         }else {
             openid= createOauthUrlForOpenid(code);
@@ -63,6 +64,52 @@ public class JsPayUtil {
             }
         }
 
+    }
+
+    /**
+     * 支付签名
+     * @param timestamp
+     * @param noncestr
+     * @param packages
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    public static String paySign(String timestamp, String noncestr,String packages) {
+        Map<String, String> paras = new HashMap<String, String>();
+        paras.put("appid", Constant.appid);
+        paras.put("timestamp", timestamp);
+        paras.put("noncestr", noncestr);
+        paras.put("package", packages);
+        paras.put("appkey", Constant.KEY);
+        // appid、timestamp、noncestr、package 以及 appkey。
+        String string1 = SignatureUtil.createSign(paras, false);
+        String paySign = DigestUtils.shaHex(string1);
+        return paySign;
+    }
+
+    /**
+     * 支付回调校验签名
+     * @param timestamp
+     * @param noncestr
+     * @param openid
+     * @param issubscribe
+     * @param appsignature
+     * @return
+     * @throws
+     */
+    public static boolean verifySign(long timestamp,
+                                     String noncestr, String openid, int issubscribe, String appsignature) {
+        Map<String, String> paras = new HashMap<String, String>();
+        paras.put("appid",Constant.appid);
+        paras.put("appkey", Constant.KEY);
+        paras.put("timestamp", String.valueOf(timestamp));
+        paras.put("noncestr", noncestr);
+        paras.put("openid", openid);
+        paras.put("issubscribe", String.valueOf(issubscribe));
+        // appid、appkey、productid、timestamp、noncestr、openid、issubscribe
+        String string1 = SignatureUtil.createSign(paras, false);
+        String paySign = DigestUtils.shaHex(string1);
+        return paySign.equalsIgnoreCase(appsignature);
     }
 
 }

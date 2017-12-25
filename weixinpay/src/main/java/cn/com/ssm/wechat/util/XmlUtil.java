@@ -1,5 +1,6 @@
 package cn.com.ssm.wechat.util;
 
+import com.github.pagehelper.StringUtil;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
@@ -35,6 +36,34 @@ public class XmlUtil {
         }
         buffer.append("</xml>");
         return buffer.toString();
+    }
+
+    /**
+     * map转成xml
+     *
+     * @param arr
+     * @return
+     */
+    public String ArrayToXml(Map<String, String> parm, boolean isAddCDATA) {
+        StringBuffer strbuff = new StringBuffer("<xml>");
+        if (parm != null && !parm.isEmpty()) {
+            for (Map.Entry<String, String> entry : parm.entrySet()) {
+                strbuff.append("<").append(entry.getKey()).append(">");
+                if (isAddCDATA) {
+                    strbuff.append("<![CDATA[");
+                    if (StringUtil.isNotEmpty(entry.getValue())) {
+                        strbuff.append(entry.getValue());
+                    }
+                    strbuff.append("]]>");
+                } else {
+                    if (StringUtil.isNotEmpty(entry.getValue())) {
+                        strbuff.append(entry.getValue());
+                    }
+                }
+                strbuff.append("</").append(entry.getKey()).append(">");
+            }
+        }
+        return strbuff.append("</xml>").toString();
     }
 
     /**

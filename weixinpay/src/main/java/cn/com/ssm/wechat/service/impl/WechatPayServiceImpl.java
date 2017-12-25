@@ -2,15 +2,11 @@ package cn.com.ssm.wechat.service.impl;
 
 import cn.com.ssm.wechat.constant.Constant;
 import cn.com.ssm.wechat.service.WechatPayService;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.ui.Model;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * res预支付订单 字符串
@@ -39,7 +35,6 @@ public class WechatPayServiceImpl implements WechatPayService {
 //                // 生成 config 签名
 //            //    startSign.append("jsapi_ticket=").append(jsapi_ticket);
 //                startSign.append("&noncestr=").append(start.get("nonceStr"));
-//                startSign.append("&timestamp=").append(start.get("timestamp"));
 //                startSign.append("&url=").append(url);
 //                start.put("signature", encoder.encode(startSign.toString()));
 //
@@ -65,8 +60,8 @@ public class WechatPayServiceImpl implements WechatPayService {
     }
 
     public String createTimeStamp() {
-                 return Long.toString(System.currentTimeMillis() / 1000);
-             }
+        return Long.toString(System.currentTimeMillis() / 1000);
+    }
 
     /**
      * 获取微信 JSAPI 支付的临时票据
@@ -86,7 +81,6 @@ public class WechatPayServiceImpl implements WechatPayService {
 //        }
 //        return Configure.getJsapiTicket();
 //    }
-
     public static boolean checkJsapiTicket() {
         if (!StringUtils.isEmpty(Constant.jsapiTicket)) {
             Calendar calendar = Calendar.getInstance();

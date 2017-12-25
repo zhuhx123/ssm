@@ -36,9 +36,6 @@ public class WxPayController {
     @Autowired
     UnifiedOrderService unifiedOrderService;
 
-    @Autowired
-    NotifyService notifyService;
-
     @RequestMapping("/wxpay")
     public String pay(HttpServletRequest request, Model m) {
         StringBuffer url = request.getRequestURL();
@@ -57,23 +54,32 @@ public class WxPayController {
         String nonceStr = SignatureUtil.getNonceStr();
         SortedMap<Object, Object> signParams = new TreeMap<Object, Object>();
         signParams.put("appId", Constant.appid);
-        signParams.put("nonceStr", nonceStr);
-        signParams.put("package", "prepay_id=" + prepay_id);
         signParams.put("timeStamp", timeStamp);
+        signParams.put("nonceStr", nonceStr);
         signParams.put("signType", "MD5");
+        signParams.put("package", "prepay_id=" + prepay_id);
         // 生成支付签名，要采用URLENCODER的原始值进行SHA1算法！
         String sign = SignatureUtil.createSign(signParams, Constant.KEY);
-
-
+        signParams.put("pg", prepay_id);
         m.addAttribute("paySign", sign);
 
         m.addAttribute("packageValue", "prepay_id=" + prepay_id);
-
+//        WebUtil.response(response, WebUtil.packJsonp(callback,
+//                JsonUtil.warpJsonNodeResponse(JsonUtil.objectToJsonNode(payMap)).toString()));
         return "跳转到你的支付页面";
     }
 
     @RequestMapping("/notify")
     public void notify(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // String xml =
+        // "<xml><appid><![CDATA[wxb4dc385f953b356e]]></appid><bank_type><![CDATA[CCB_CREDIT]]>
+        // </bank_type><cash_fee><![CDATA[1]]></cash_fee><fee_type><![CDATA[CNY]]></fee_type>
+        // <is_subscribe><![CDATA[Y]]></is_subscribe><mch_id><![CDATA[1228442802]]></mch_id>
+        // <nonce_str><![CDATA[1002477130]]></nonce_str><openid><![CDATA[o-HREuJzRr3moMvv990VdfnQ8x4k]]></openid>
+        // <out_trade_no><![CDATA[1000000000051249]]></out_trade_no><result_code><![CDATA[SUCCESS]]></result_code>
+        // <return_code><![CDATA[SUCCESS]]></return_code><sign><![CDATA[1269E03E43F2B8C388A414EDAE185CEE]]></sign>
+        // <time_end><![CDATA[20150324100405]]></time_end><total_fee>1</total_fee><trade_type><![CDATA[JSAPI]]></trade_type>
+        // <transaction_id><![CDATA[1009530574201503240036299496]]></transaction_id></xml>";
         ResultObject result = new ResultObject();// 返回数据结果集合
         try {
             request.setCharacterEncoding("UTF-8");

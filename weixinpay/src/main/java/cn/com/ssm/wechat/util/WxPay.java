@@ -14,13 +14,14 @@ public class WxPay {
 
     public static UnifiedOrderParams getUnifiedOrderParams(String payOrderSn,String code){
         String out_trade_no=payOrderSn;
-        BigDecimal total_fee=new BigDecimal(0.01);
+        BigDecimal total_fee=new BigDecimal(0.01).setScale(2,BigDecimal.ROUND_HALF_UP);
         Integer status=1;
         String subject="I美平台套餐订单号"+payOrderSn;
         String body=subject;
-        String notify_url="/pay/notify.php";
+        String notify_url="/pay/notify";
         String trade_type="JSAPI";
-        String openid=JsPayUtil.getOpenid(code);
+//        String openid=JsPayUtil.getOpenid(code);
+        String openid="111sda";
         String mch_id= Constant.mch_id;
         String spbill_create_ip="127.0.0.1";
         String nonce_str=SignatureUtil.getNonceStr();

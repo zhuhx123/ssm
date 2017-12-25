@@ -1,7 +1,10 @@
 package cn.com.ssm.wechat.util;
 
 import com.ivymei.framework.util.Md5Encrypt;
+import com.ivymei.framework.util.StringUtil;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -25,6 +28,46 @@ public class SignatureUtil {
         sb.append("key=" + key);
         String sign = Md5Encrypt.md5ByUTF8(sb.toString()).toUpperCase();
         return sign;
+    }
+
+    /**
+     * 构造签名
+     * @param params
+     * @param encode
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    public static String createSign(Map<String, String> params, boolean encode)  {
+        Set<String> keysSet = params.keySet();
+        Object[] keys = keysSet.toArray();
+        Arrays.sort(keys);
+        StringBuffer temp = new StringBuffer();
+        boolean first = true;
+        for (Object key : keys) {
+            if (key == null || StringUtil.isEmpty(params.get(key))) // 参数为空参与签名
+                continue;
+            if (first) {
+                first = false;
+            } else {
+                temp.append("&");
+            }
+            temp.append(key).append("=");
+            Object value = params.get(key);
+            String valueString = "";
+            if (null != value) {
+                valueString = value.toString();
+            }
+            if (encode) {
+                try {
+                    temp.append(URLEncoder.encode(valueString, "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                temp.append(valueString);
+            }
+        }
+        return temp.toString();
     }
 
 //    public static String getNonceStr() {
@@ -61,4 +104,6 @@ public class SignatureUtil {
         }
         return sb.toString();
     }
+
+
 }
