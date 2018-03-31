@@ -9,9 +9,9 @@
        http://www.springframework.org/schema/task/spring-task.xsd">
 
     <!-- 自动扫描 -->
-    <context:component-scan base-package="cn.com.ssm">
-        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-    </context:component-scan>
+    <!--<context:component-scan base-package="cn.com.ssm">-->
+        <!--<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+    <!--</context:component-scan>-->
 
     <!-- 引入配置文件 -->
     <bean id="propertyConfigurer"
@@ -31,5 +31,5 @@
     <!--<import resource="classpath:configs/spring/applicationContext-mongodb.xml" />-->
     <!--<import resource="classpath:configs/spring/applicationContext-redis.xml"/>-->
     <!--<import resource="classpath:configs/spring/applicationContext-dubbo-provide.xml"/>-->
-
+    <import resource="classpath:configs/spring/applicationContext-quartz.xml"/>
 </beans>

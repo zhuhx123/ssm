@@ -1,5 +1,6 @@
 .git
 *.iml
+.idea
 ssm-admin/target
 ssm-api/target
 ssm-common/target
