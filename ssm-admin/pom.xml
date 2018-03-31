@@ -7,7 +7,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ssm-admin</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>ssm-admin</name>
     <url>http://maven.apache.org</url>
     <dependencies>
