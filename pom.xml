@@ -10,6 +10,9 @@
     <module>ssm-api</module>
     <module>ssm-common</module>
     <module>weixinpay</module>
+    <module>icetest</module>
+    <module>thread</module>
+    <module>quartz</module>
   </modules>
   <name>ssm</name>
   <url>http://maven.apache.org</url>

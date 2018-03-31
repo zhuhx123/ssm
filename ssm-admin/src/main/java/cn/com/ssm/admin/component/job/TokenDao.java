@@ -1,6 +1,5 @@
 package cn.com.ssm.admin.component.job;
 
-import cn.com.ssm.common.model.ImToken;
 import cn.com.ssm.common.model.mongo.MBReportToken;
 
 import java.util.List;

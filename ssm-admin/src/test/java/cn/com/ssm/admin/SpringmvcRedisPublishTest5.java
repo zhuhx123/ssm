@@ -14,7 +14,7 @@ public class SpringmvcRedisPublishTest5 {
 
     public static void main(String[] args) {
         Jedis publisherJedis = RedisUtil.getJedis();
-        String CHANNEL = "mychannel";
+        String CHANNEL = "mychanne2";
         publisherJedis.publish(CHANNEL, "222233");
     }
 

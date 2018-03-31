@@ -11,6 +11,8 @@
     <!-- 自动扫描 -->
     <context:component-scan base-package="cn.com.ssm">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <!--指定class或interface的全名-->
+        <context:exclude-filter type="assignable" expression="cn.com.ssm.admin.component.job.TokenDaoImpl"/>
     </context:component-scan>
 
     <!-- 引入配置文件 -->
@@ -27,9 +29,9 @@
     </bean>
 
     <!-- spring 其他配置 方便测试 -->
-    <import resource="classpath:configs/spring/applicationContext-datasource.xml"/>
-    <import resource="classpath:configs/spring/applicationContext-mongodb.xml" />
-    <import resource="classpath:configs/spring/applicationContext-redis.xml"/>
-    <import resource="classpath:configs/spring/applicationContext-dubbo-provide.xml"/>
-
+    <!--<import resource="classpath:configs/spring/applicationContext-datasource.xml"/>-->
+    <!--<import resource="classpath:configs/spring/applicationContext-mongodb.xml" />-->
+    <!--<import resource="classpath:configs/spring/applicationContext-redis.xml"/>-->
+    <!--<import resource="classpath:configs/spring/applicationContext-dubbo-provide.xml"/>-->
+    <import resource="classpath:configs/spring/applicationContext-quartz.xml"/>
 </beans>
